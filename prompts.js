@@ -1,4 +1,4 @@
-import csv from 'csv';
+import csvGen from 'csv-generate';
 
 let endpoint = 'http://localhost:1234/v1/chat/completions'
 
@@ -21,21 +21,11 @@ async function getResponses(prompt)   {
     });
 
     let data = await response.json();
-    let message = data.message;
+    let message = data.choices[0].message.content;
     let messageHeader = data['message-header']
 
-    console.log(message);
     return message;
 }
 
-async function getData() {
-    try {
-        return await $.getJSON('./data.json').promise();
-    }
-    catch (error) {
-        console.log("error" + error);
-    }
-    finally {
-        console.log('done');
-    }
-}
+let data = await getResponses("What is the capital of the Philippines?");
+console.log(data);
